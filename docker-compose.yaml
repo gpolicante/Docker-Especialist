@@ -1,0 +1,30 @@
+version: '3'
+services: 
+  dexter-intranet: 
+   image: "dexter-intranet"
+   hostname: "dexter-intranet" 
+   container_name: "dexter-intranet"
+   ports: 
+    - "8080:80"
+   networks:
+    dexterlan:
+     ipv4_address: 172.18.0.150 
+   volumes:
+    - /srv/data:/backup 
+
+  wordpress_dexter:
+   image: wordpress
+   links: 
+    - mysql_dexter:mysql
+   ports:
+    - 8081:80 
+  mysql_dexter:
+   image: mariadb
+   environment:
+    MYSQL_ROOT_PASSWORD: dexter
+
+networks: 
+ dexterlan:
+  external: true
+
+ 
