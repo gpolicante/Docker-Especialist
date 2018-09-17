@@ -1,0 +1,50 @@
+version: '3'
+
+volumes:
+
+  portainer_data:
+    driver: local   
+
+
+services: 
+  monitoracao:
+   image: google/cadvisor:latest
+   ports: 
+    - 8585:8080
+   deploy:
+    mode: global 
+   volumes: 
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    - /dev/disk/:/dev/disk:ro
+
+  portainer: 
+   image: portainer/portainer
+   ports:
+    - 9000:9000
+   volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - portainer_data:/data
+   deploy:
+    mode: global
+
+  wordpress: 
+   image: wordpress
+   links:
+    - mysql_dexter:mysql
+   ports: 
+    - 8081:80
+   deploy:
+    mode: replicated
+    replicas: 5
+  mysql_dexter:
+   image: mariadb
+   environment:
+    MYSQL_ROOT_PASSWORD: 4linux
+   deploy:
+    mode: replicated
+    replicas: 5
+
+  
