@@ -1,0 +1,26 @@
+apiVersion: apps/v1 
+kind: ReplicaSet
+metadata:
+         name: frontend
+         labels: 
+          app: guestbook
+          tier: frontend
+spec:
+  replicas: 3 
+  selector:
+          matchLabels:
+                  tier: frontend
+  template: 
+    metadata:
+          labels: 
+           app: guestbook 
+           tier: frontend 
+    spec: 
+     containers:
+       - name: php-redis
+         image: redis 
+         resources: 
+          requests:
+                  memory: 100Mi
+         ports:
+               - containerPort: 80

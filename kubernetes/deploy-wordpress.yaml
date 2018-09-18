@@ -1,0 +1,19 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+   name: aplicacao-wordpress
+spec:
+ selector:
+         matchLabels:
+                 name: aplicacao-wordpress
+ replicas: 3
+ template:
+         metadata:
+                 labels: 
+                   name: aplicacao-wordpress
+         spec: 
+          containers:
+              - name: container-aplicacao-wordpress
+                image: wordpress 
+                ports:
+                        - containerPort: 80

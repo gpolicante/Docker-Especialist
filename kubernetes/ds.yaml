@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata: 
+ name: frontend
+spec:
+       template:
+               metadata:
+                       labels:
+                               app: frontend-webserver
+               spec:
+                      containers:
+                          - name: webserver
+                            image: nginx
+                            ports:
+                              - containerPort: 80
