@@ -14,5 +14,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: site-dexter
+          serviceName: aplicacao-wordpress
           servicePort: 80

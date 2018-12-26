@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  name: aplicacao-wordpress
+  selfLink: /api/v1/namespaces/default/services/aplicacao-wordpress
+spec:
+  externalIPs:
+  - 192.168.30.151
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: aplicacao-wordpress
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
