@@ -1,58 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 Vagrant.configure("2") do |config|
 
+  config.vm.box = "centos/7"
+  config.vm.box_check_update = false
+
+  config.vm.define "master" do |srv|
+    srv.vm.hostname = "master.kubernetes.os"
+    srv.vm.network "private_network", ip: "192.168.1.10"
+    srv.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = "2"
+    end
+  end
+  
+  config.vm.define "node1" do |srv|
+    srv.vm.hostname = "node1.kubernetes.os"
+    srv.vm.network "private_network", ip: "192.168.1.20"
+    srv.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = "2"
+    end
+
+  end
+  
+  config.vm.define "node2" do |srv|
+    srv.vm.hostname = "node2.kubernetes.os"
+    srv.vm.network "private_network", ip: "192.168.1.30"
+    srv.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = "2"
+    end
+
+  end
  
-   config.vm.define "manager" do |manager|
-    manager.vm.box = "centos/7"
-	manager.vm.network "private_network", ip: "192.168.33.150"
-       config.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-	end
-
-	end
-
-   config.vm.define "registry" do |registry|
-    registry.vm.box = "centos/7"
-	registry.vm.network "private_network", ip: "192.168.33.149"
-	config.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-	end
-   end
-
-
-   config.vm.define "worker1" do |worker1|
-    worker1.vm.box = "ubuntu/xenial64"
-        worker1.vm.network "private_network", ip: "192.168.33.151"
-
-       config.vm.provider "virtualbox" do |vb|
-        vb.memory = "1024"
-        end
-
-   end
-
-
-   config.vm.define "worker2" do |worker2|
-    worker2.vm.box = "ubuntu/xenial64"
-        worker2.vm.network "private_network", ip: "192.168.33.152"
-
-       config.vm.provider "virtualbox" do |vb|
-        vb.memory = "1024"
-        end
-
-   end
-
-
-
-   config.vm.define "worker3" do |worker3|
-    worker3.vm.box = "ubuntu/xenial64"
-        worker3.vm.network "private_network", ip: "192.168.33.153"
-
-       config.vm.provider "virtualbox" do |vb|
-        vb.memory = "1024"
-        end
-
-   end
-
-
-
-
+config.vm.provision "shell", path: "files/provision.sh"
 end
