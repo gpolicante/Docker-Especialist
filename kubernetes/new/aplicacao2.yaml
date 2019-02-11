@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: site-ivar
+  labels:
+    aplicacao: site-ivar
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
+  selector:
+    aplicacao: site-ivar
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: site-ivar
+spec:
+  selector:
+    matchLabels:
+      aplicacao: site-ivar
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        aplicacao: site-ivar
+    spec:
+      containers:
+      - name: site-ivar
+        image: gpolicante/ivar-site
+        ports:
+        - containerPort: 80
+        volumeMounts:
+           - name: nfs 
+             mountPath: /usr/local/apache2/htdocs
+
+      volumes:
+      - name: nfs 
+        persistentVolumeClaim:
+           claimName: nfs 

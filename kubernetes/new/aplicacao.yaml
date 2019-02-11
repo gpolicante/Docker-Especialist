@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: site-ivar
+spec:
+ 
+ selector:
+  matchLabels:
+   aplicacao: site-ivar
+ 
+ replicas: 2 
+ 
+ template:
+   metadata:
+     labels:
+       aplicacao: site-ivar 
+   spec:
+    containers:
+     - name: site-ivar 
+       image: gpolicante/ivar-site
+       ports:
+       - containerPort: 80 
